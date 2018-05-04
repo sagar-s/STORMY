@@ -1,8 +1,12 @@
 package com.sagar.stormy;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -28,37 +32,54 @@ public class MainActivity extends AppCompatActivity {
         double longitude = -122.4233;
         String forecastURL = "https://api.darksky.net/forecast/" +apiKey + "/" +latitude + "," +longitude;
 
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(forecastURL)
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
 
-            }
+        if(isNetwrokAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(forecastURL)
+                    .build();
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    Log.v(TAG, response.body().string());
-                    if(response.isSuccessful()){
-                        Log.v(TAG, response.body().string());
-                    }
-                    else{
-                        alertUserAboutError();
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG, "IO Exception");
                 }
-            }
-        });
 
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    try {
+                        Log.v(TAG, response.body().string());
+                        if (response.isSuccessful()) {
+                            Log.v(TAG, response.body().string());
+                        } else {
+                            alertUserAboutError();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "IO Exception");
+                    }
+                }
+            });
+        }
 
     }
 
-    private void alertUserAboutError() {
+    private boolean isNetwrokAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 
+        boolean isAvaialable = false;
+
+        if(networkInfo != null && networkInfo.isConnected()){
+            isAvaialable = true;
+        }
+        else{
+            Toast.makeText(this, R.string.network_unavailable_msg, Toast.LENGTH_LONG).show();
+        }
+        return isAvaialable;
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
     }
 }
