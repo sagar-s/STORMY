@@ -5,8 +5,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -22,10 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    private CurrentWeather currentWeather;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView darkSky = findViewById(R.id.darkskyAttribution);
+        darkSky.setMovementMethod(LinkMovementMethod.getInstance());
 
         String apiKey = "5f8112da8cbb3f229389827205d2160e";
         double latitude = 37.8267;
@@ -48,19 +58,47 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     try {
-                        Log.v(TAG, response.body().string());
+                        String jsonData = response.body().string();
+                        Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            Log.v(TAG, response.body().string());
+                            currentWeather = getCurrentDetails(jsonData);
                         } else {
                             alertUserAboutError();
                         }
                     } catch (IOException e) {
-                        Log.e(TAG, "IO Exception");
+                        Log.e(TAG, "IO Exception", e);
+                    } catch (JSONException e){
+                        Log.e(TAG, "JSON Excetion caught", e);
                     }
                 }
             });
         }
 
+    }
+
+    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException{
+        JSONObject forecast = new JSONObject(jsonData);
+
+        String timezone = forecast.getString("timezone");
+        Log.i(TAG, "From JSON:" + timezone);
+
+
+        JSONObject currently = new JSONObject("currently");
+
+        CurrentWeather currentWeather = new CurrentWeather();
+
+        currentWeather.setHumidity(currently.getDouble("humidity"));
+        currentWeather.setTime(currently.getLong("time"));
+        currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setLocationLabel("Alcatraz Island, CA");
+        currentWeather.setPrecipChance(currently.getDouble("precipChance"));
+        currentWeather.setSummary(currently.getString("summary"));
+        currentWeather.setSummary(currently.getString("temperature"));
+        currentWeather.setTimeZone(timezone);
+
+        Log.d(TAG, currentWeather.getFormattedTime());
+
+        return currentWeather;
     }
 
     private boolean isNetwrokAvailable() {
