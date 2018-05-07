@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         currentWeather.setTime(currently.getLong("time"));
         currentWeather.setIcon(currently.getString("icon"));
         currentWeather.setLocationLabel("Alcatraz Island, CA");
-        currentWeather.setPrecipChance(currently.getDouble("precipChance"));
+        currentWeather.setPrecipChance(currently.getDouble("precipProbability"));
         currentWeather.setSummary(currently.getString("summary"));
         currentWeather.setSummary(currently.getString("temperature"));
         currentWeather.setTimeZone(timezone);
