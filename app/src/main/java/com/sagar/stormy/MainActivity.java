@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "From JSON:" + timezone);
 
 
-        JSONObject currently = new JSONObject("currently");
+        JSONObject currently = forecast.getJSONObject("currently");
 
         CurrentWeather currentWeather = new CurrentWeather();
 
