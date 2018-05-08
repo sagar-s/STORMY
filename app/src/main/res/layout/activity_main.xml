@@ -5,13 +5,13 @@
     <data>
         <variable
             name = "weather"
-            type = "com.sagar.stormy.CurrentWeather"/>
+            type = "com.sagar.stormy.weather.CurrentWeather"/>
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/appBackground"
-        tools:context=".MainActivity">
+        tools:context=".ui.MainActivity">
 
 
         <TextView
