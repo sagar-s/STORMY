@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/appBackground"
+        android:background="@drawable/bg_gradient"
         tools:context=".ui.MainActivity">
 
 
@@ -183,6 +183,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/refresh" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="540dp" />
+
+        <Button
+            android:id="@+id/hourlyButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="#40FFFFFF"
+            android:text="Hourly Forecast"
+            android:textColor="#FFFFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/darkskyAttribution"
+            tools:layout_editor_absoluteY="491dp" />
+
+        <Button
+            android:id="@+id/dailyButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="#40FFFFFF"
+            android:text="Daily Forecast"
+            android:textColor="#FFFFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintBottom_toTopOf="@+id/darkskyAttribution"
+            tools:layout_editor_absoluteY="491dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="196dp" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
