@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String DAILY_FORECAST = "DAILY_FORECAST";
 
     private Forecast mForecast;
 
@@ -49,9 +51,14 @@ public class MainActivity extends AppCompatActivity {
     final double latitude = 37.8267;
     final double longitude = -122.4233;
 
+    @BindView(R.id.dailyButton)
+    Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         getForecast(latitude, longitude);
 
@@ -232,10 +239,10 @@ public class MainActivity extends AppCompatActivity {
     public void refreshOnClick(View view){
         getForecast(latitude, longitude);
     }
-    @Optional
     @OnClick (R.id.dailyButton)
     public void startDailyActivity(View view){
         Intent intent = new Intent(this, DailyForecastActivity.class);
+        intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
         startActivity(intent);
 
     }

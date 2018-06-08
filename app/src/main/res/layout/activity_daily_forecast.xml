@@ -7,13 +7,15 @@
     tools:context=".ui.DailyForecastActivity">
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_gradient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        android:divider="@null"
+        android:dividerHeight="0dp">
 
     </ListView>
 
@@ -22,5 +24,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/no_daily_forecast"
-        android:textColor="#FFFFFFFF" />
+        android:textColor="#FFFFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/locationLabel"
+        app:layout_constraintTop_toBottomOf="@+id/thisWeekLabel" />
+
+    <TextView
+        android:id="@+id/thisWeekLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="This Week's Weather"
+        android:textColor="#ffffffff"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/locationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alcatraz Island, CA"
+        android:textColor="#ffffffff"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
+        />
 </android.support.constraint.ConstraintLayout>
